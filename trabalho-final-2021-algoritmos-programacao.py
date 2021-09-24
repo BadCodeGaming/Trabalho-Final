@@ -11,6 +11,8 @@ class usuarios:
     lista_carrinho = []
 
 # Cadastrar novos produtos
+
+
 class produtos:
     numero = None
     nome = None
@@ -19,6 +21,8 @@ class produtos:
     origem = None  # praqueles que não querem comprar da china
 
 # Cria produtos
+
+
 def cria_produtos(lista_produtos):
     # produto1
     pastad_oral = produtos()
@@ -183,6 +187,8 @@ def cria_produtos(lista_produtos):
     '''lista terminada de produtos'''
 
 # 1 - Cadastro do cliente
+
+
 def cadastramento(lista_usuarios):
     usuario = usuarios()
     while True:
@@ -208,7 +214,7 @@ def cadastramento(lista_usuarios):
                 print("Número de tentativas excedido! Tente novamente mais tarde")
                 break
             for user in lista_usuarios:
-                if Cpf == user.cpf:  
+                if Cpf == user.cpf:
                     print("Esse CPF já existe")
                     return
             if len(Cpf) > 11:
@@ -232,7 +238,8 @@ def cadastramento(lista_usuarios):
             Email = input("Digite o seu email: ")
             numTem += 1
             if "@" not in Email or Email in lista_usuarios or ".com" not in Email:
-                print("Email invalido ou já cadastrado, por favor digite um Email válido")
+                print(
+                    "Email invalido ou já cadastrado, por favor digite um Email válido")
                 continue
             elif numTem > 3:
                 print("Número de tentativas excedido, tente novamente mais tarde!")
@@ -245,7 +252,7 @@ def cadastramento(lista_usuarios):
         while aux == True:
             numTem += 1
             Cartão = input("Digite os numeros do cartão (16 caracteres): ")
-            if len(Cartão) != 16: 
+            if len(Cartão) != 16:
                 print("Numero invalido")
                 continue
             elif numTem > 3:
@@ -270,7 +277,8 @@ def cadastramento(lista_usuarios):
         # pedindo limite de crédito existente
         aux = True
         while aux == True:
-            LimiteCredito = float(input("Digite o seu limite de credito atual: "))
+            LimiteCredito = float(
+                input("Digite o seu limite de credito atual: "))
             if LimiteCredito > 1000:
                 print("Opção de saldo inválido")
                 continue
@@ -289,17 +297,20 @@ def cadastramento(lista_usuarios):
         return True
 
 # 2 - Consultar cliente
+
+
 def consulta_cliente(lista_usuarios):
     cpf_consulta = input("Digite o CPF: ")
     for usuario in lista_usuarios:
         if cpf_consulta == usuario.cpf:
             print(f"O nome do cliente é {usuario.nome}")
             print(f"O email do cliente é {usuario.email}")
-            print(f"A senha do cliente é {usuario.senha}\n")
         else:
             print()
 
 # 3 - Login
+
+
 def login(lista_usuarios, usuario_logado, nivel_de_permissão):
     while True:
         Email = input("Digite o seu email: ")
@@ -307,8 +318,9 @@ def login(lista_usuarios, usuario_logado, nivel_de_permissão):
             if Email == lista_usuarios[i].email or Email == "AdminSuperFoda@gmail.com":
                 Senha = input("Digite a sua senha: ")
                 for j in range(len(lista_usuarios)):
-                    if Senha == lista_usuarios[i].senha and Email == "AdminSuperFoda@MeuServiçoDeEmail.com":
-                        print(f"Bem vindo(a) Admin {lista_usuarios[i].nome}!\n")
+                    if Senha == lista_usuarios[i].senha and Email == "AdminSuperFoda@gmail.com":
+                        print(
+                            f"Bem vindo(a) Admin {lista_usuarios[i].nome}!\n")
                         usuario_logado.nome = lista_usuarios[i].nome
                         usuario_logado.cpf = lista_usuarios[i].cpf
                         usuario_logado.email = lista_usuarios[i].email
@@ -343,64 +355,75 @@ def login(lista_usuarios, usuario_logado, nivel_de_permissão):
 
 # 4 - Compra
 def compra(usuario_logado):
-    produto_comprar = int(input("Digite o numero do produto que gostaria de comprar: "))
-    if produto_comprar <= len(usuario_logado.lista_carrinho) +1:
+    produto_comprar = int(
+        input("Digite  numero do produto que gotaria de comprar: "))
+    if produto_comprar <= len(usuario_logado.lista_carrinho) + 1:
         produto_comprar -= 1
         variavel_temporaria_pra_testar_limite_credito = usuario_logado.balanço
         variavel_temporaria_pra_testar_limite_credito -= usuario_logado.lista_carrinho[produto_comprar].valor
         if variavel_temporaria_pra_testar_limite_credito >= usuario_logado.limitecredito:
             usuario_logado.balanço = variavel_temporaria_pra_testar_limite_credito
-            print(f"Produto {usuario_logado.lista_carrinho[produto_comprar].nome}comprado com sucesso! Ele chegará a você em até 14 dias.")
-            print(usuario_logado.balanço)
-            tira_do_carrinho = input("Deseja retirar o produto de seu carrinho? Digite 'sim' para confirmar: ")
+            print(
+                f"Produto {usuario_logado.lista_carrinho[produto_comprar].nome}comprado com sucesso! Ele chegará a você em até 14 dias.")
+            tira_do_carrinho = input(
+                "Deseja retirar o produto de seu carrinho? Digite 'sim' para confirmar: ")
             if tira_do_carrinho.upper() == "SIM":
-                usuario_logado.lista_carrinho.remove(usuario_logado.lista_carrinho[produto_comprar])
-                print("Produto removido do carrinho com sucesso.")
-                print(usuario_logado.lista_carrinho[-1].nome)
-                return usuario_logado
+                usuario_logado.lista_carrinho.remove(
+                    usuario_logado.lista_carrinho[produto_comprar])
+                print("\nProduto removido do carrinho com sucesso.")
             else:
-                print("O produto não foi removido")
+                print("\nO produto não foi removido")
         else:
-              print("Você ultrapssou o seu limite de credito, por favor deposite mais dinheiro em sua conta para realizar essa operação")
+            print("Você esta sem crédito no momento, para adicionar mais crédito escolha a opção 'Adicionar dinheiro' no menu inicial.")
+            return
+    else:
+        print("Esse produto não se encontra na lista. Tente novamente")
+        return
 
 # 5 - Carrinho de compras
+
+
 def Add_Carrinho(usuario_logado, lista_usuarios, lista_produtos):
     aux = True
     while aux == True:
-        selecione_produto = int(input("digite o numero do produto que deseja adicionar: "))
-        if selecione_produto <= len(lista_produtos) +1:
+        selecione_produto = int(
+            input("digite o numero do produto que deseja adicionar: "))
+        if selecione_produto <= len(lista_produtos) + 1:
             for produtos in usuario_logado.lista_carrinho:
                 if produtos.numero == selecione_produto:
                     print("Ele ja se encontra no carrinho")
                     continue
-            selecione_produto -= 1 #pra ir nos produtos certos, ja que o cliente não sabe que a listagem começa em "0"
+            # pra ir nos produtos certos, ja que o cliente não sabe que a listagem começa em "0"
+            selecione_produto -= 1
             if selecione_produto < 0:
                 print("Numero inválido")
                 continue
-            print(f"{lista_produtos[selecione_produto].nome} por R${lista_produtos[selecione_produto].valor:.2f}")
-            BotaNoCarrinho = input("Deseja depositar esse produto no carrinho? Digite 'sim' para confirmar, caso não queira digite 'nao': " )
+            print(
+                f"{lista_produtos[selecione_produto].nome} por R${lista_produtos[selecione_produto].valor:.2f}")
+            BotaNoCarrinho = input(
+                "Deseja depositar esse produto no carrinho? Digite 'sim' para confirmar, caso não queira digite 'nao': ")
             if BotaNoCarrinho.upper() == "SIM":
-                print(f"Produto {lista_produtos[selecione_produto].nome} adicionado ao carrinho")
-                usuario_logado.lista_carrinho.append(lista_produtos[selecione_produto])
-                '''for i in range(len(lista_usuarios)): #para o ususario logado e o usuario na lista_ususarios estarem alinhados
-                    if lista_usuarios[i].email == usuario_logado.email:
-                        lista_usuarios[i].lista_carrinho = usuario_logado.lista_carrinho
-                        print(lista_usuarios[0].nome)
-                        print(lista_usuarios[0].lista_carrinho[-1].nome)
-                        return'''
+                print(
+                    f"Produto {lista_produtos[selecione_produto].nome} adicionado ao carrinho")
+                usuario_logado.lista_carrinho.append(
+                    lista_produtos[selecione_produto])
             else:
                 print("Produto não adicionado.")
-                return 
+                return
         else:
             print("Numero invalido.")
 
 # 5.01 Carrinho de compras
+
+
 def listar_carrinho(usuario_logado):
     for produtos in usuario_logado.lista_carrinho:
         print(f"{produtos.nome} por R${produtos.valor}")
     print()
 
 # 6 Lista produtos
+
+
 def listar_produtos(lista_produtos):
     for produtos in lista_produtos:
         print(produtos.numero, end=". ")
@@ -409,21 +432,26 @@ def listar_produtos(lista_produtos):
         print(produtos.origem, end=" por ")
         print(f"R${produtos.valor:.2f}")
         print()
-    print()  # função pronta
+    print()
 
 # 7 adicionar credito
-def adicionar_balanço(usuario_logado):  # 100% funcional
+
+
+def adicionar_balanço(usuario_logado):
     chances_pra_senha = 3
     while chances_pra_senha >= 0:
         confirmar_a_senha = input("Digite a senha do seu cartão de credito: ")
         if confirmar_a_senha == usuario_logado.cartãosenha:
-            mais_balanço = float(input("Digite o quando de dinheiro deseja adicionar: "))
+            mais_balanço = float(
+                input("Digite o quando de dinheiro deseja adicionar: "))
             usuario_logado.balanço += mais_balanço
-            print(f"Ordem realiazada com sucesso! Você agora tem R${usuario_logado.balanço:.2f} na sua conta")
+            print(
+                f"Ordem realiazada com sucesso! Você agora tem R${usuario_logado.balanço:.2f} na sua conta")
             return usuario_logado
         elif confirmar_a_senha != usuario_logado.cartãosenha and chances_pra_senha > 1:
             chances_pra_senha -= 1
-            print(f"Essa senha está incorreta, tente novamnete. {chances_pra_senha} tentativas restantes")
+            print(
+                f"Essa senha está incorreta, tente novamnete. {chances_pra_senha} tentativas restantes")
         elif chances_pra_senha == 1:
             print("tentativas esgotadas.")
             return
@@ -433,7 +461,39 @@ def adicionar_balanço(usuario_logado):  # 100% funcional
 
 # 8 Adicione Produto: (admin only)
 
+
 def novo_produto(lista_produtos):
+    produto = produtos()
+    adicione_produto_nome = input(
+        "Digite o numero do novo produto e seu nome: ")
+    adicione_produto_marca = input("Digite a marca do novo produto: ")
+    for i in range(len(lista_produtos)):
+        if adicione_produto_nome == lista_produtos[i].nome and adicione_produto_marca == lista_produtos[i].marca:
+            print("Esse produto ja existe")
+            continue
+        else:
+            confirme = input(
+                f"Você está adicionando o produto {adicione_produto_nome} da marca '{adicione_produto_marca}', deseja continuar? Digite 'sim' para confirmar ou 'não' para retornar': ")
+            if confirme.upper() == "SIM":
+                produto.nome = adicione_produto_nome
+                produto.marca = adicione_produto_marca
+                produto.valor = float(
+                    input("Digite o preço do novo produto: "))
+                produto.origem = input("Digite a origem do novo produto: ")
+                lista_produtos.append(produto)
+                print(
+                    f"Produto {adicione_produto_nome} da marca {adicione_produto_marca} adicionado pelo valor de R${produto.valor}")
+                return lista_produtos
+            elif confirme.upper() == "NAO":
+                print("Produto não adicionado")
+                return
+            else:
+                continue
+
+# new novo produto
+
+
+def novo_produtosssssssss(lista_produtos):
     produto = produtos()
     produto.numero = int(input("Digite o numero do novo produto: "))
     for i in range(len(lista_produtos)):
@@ -442,17 +502,21 @@ def novo_produto(lista_produtos):
             return
     produto.nome = input("Digite o nome do novo produto: ")
     produto.marca = input("Digite a marca do novo produto: ")
-    confirme = input(f"Você está adicionando o produto {produto.nome} da marca '{produto.marca}', deseja continuar? Digite 'sim' para confirmar ou 'não' para retornar': ")
+    confirme = input(
+        f"Você está adicionando o produto {produto.nome} da marca '{produto.marca}', deseja continuar? Digite 'sim' para confirmar ou 'não' para retornar': ")
     if confirme.upper() == "SIM":
         produto.valor = float(input("Digite o preço do novo produto: "))
         produto.origem = input("Digite a origem do novo produto: ")
         lista_produtos.append(produto)
-        print(f"Produto {produto.nome} da marca {produto.marca} adicionado pelo valor de R${produto.valor}")
+        print(
+            f"Produto {produto.nome} da marca {produto.marca} adicionado pelo valor de R${produto.valor}")
         return lista_produtos
     else:
         return
 
 # Menu principal
+
+
 def menu():
     opcao = "-1"
     usuario_logado = usuarios()
@@ -470,12 +534,13 @@ def menu():
             print("Opção selecionada: Consultar cliente\n")
             consulta_cliente(lista_usuarios)
 
-        elif opcao == "3":  
+        elif opcao == "3":
             if nivel_de_permissão[-1] == 0:
                 print("Opção selecionada: Login\n")
                 login(lista_usuarios, usuario_logado, nivel_de_permissão)
             elif nivel_de_permissão[-1] != 0:
-                are_you_sure = input("Tem certeza? Usar essa opção fará você sair de sua conta atual. Digite 'sim' para confirmar ou 'nao' para continuar na sessão atual: \n")
+                are_you_sure = input(
+                    "Tem certeza? Usar essa opção fará você sair de sua conta atual. Digite 'sim' para confirmar ou 'nao' para continuar na sessão atual: \n")
                 if are_you_sure.upper() == "SIM":
                     print("Opção selecionada: Login\n")
                     login(lista_usuarios, usuario_logado, nivel_de_permissão)
@@ -487,9 +552,10 @@ def menu():
                 if len(usuario_logado.lista_carrinho) > 0:
                     print("Opção selecionada: Compra\n")
                     listar_carrinho(usuario_logado)
-                    compra(usuario_logado)  
+                    compra(usuario_logado)
                 else:
-                    print("Você não tem nada na seu carrinho! Adicione algo a ele para acessar essa opção.")
+                    print(
+                        "Você não tem nada na seu carrinho! Adicione algo a ele para acessar essa opção.")
             else:
                 print("Faça o login para acessar essa opção\n")
 
@@ -526,7 +592,7 @@ def menu():
                 if len(lista_produtos) == 0:
                     cria_produtos(lista_produtos)
                 listar_produtos(lista_produtos)
-                novo_produto(lista_produtos)
+                novo_produtosssssssss(lista_produtos)
                 listar_produtos(lista_produtos)
             elif nivel_de_permissão[-1] == 1:
                 print("Essa opção é somente para admins\n")
@@ -542,3 +608,5 @@ def menu():
 
 
 menu()
+
+# email de administrador = AdminSuperFoda@gmail.com
